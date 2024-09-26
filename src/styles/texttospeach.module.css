@@ -1,0 +1,92 @@
+.text_to_speach_wrapper {
+    margin-top: 20px;
+}
+.text_to_speach_wrapper h1 {
+    font-size: 18px;
+    font-family: "Roboto", sans-serif;
+    margin-bottom: 10px;
+}
+
+.text_to_speach_wrapper audio {
+    margin-bottom: 15px;
+  }
+
+.text_to_speach_wrapper a {
+  background-color: #01A1ED;
+  color: #fff;
+  padding: 15px 20px;
+  width: 170px;
+  cursor: pointer;
+  border-radius: 10px;
+  border: none;
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.text_to_speach_wrapper textarea {
+    height: 180px;
+    border: 1px solid #e6e2f5;
+    padding: 15px 20px;
+    color: #333;
+    border-radius: 0px;
+    resize: none;
+    font-weight: 500;
+    border-radius: 5px;
+    font-family: "Roboto", sans-serif;
+    font-size: 16px;
+}
+.text_to_speach_wrapper select {
+    border: 1px solid #e6e2f5;
+    padding: 5px 10px;
+    color: #333;
+    border-radius: 0px;
+    font-weight: 500;
+    border-radius: 5px;
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+}
+.text_to_speach_wrapper label {
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+}
+.speach_attributes {
+    margin-right: 60px;
+}
+.speach_attributes label {
+    display: block;
+    font-size: 14px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+}
+.speach_attributes input[type="range"] {
+    -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  border-radius: 5px;
+  /* background: linear-gradient(to right, #01A1ED 50%, #ddd 50%); */
+  outline: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.speach_attributes input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #02577f;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease-in-out;
+}
+.speach_attributes input[type="range"]:hover::-webkit-slider-thumb {
+    transform: scale(1.2);
+  }
+.flex_elem {
+    display: flex;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
