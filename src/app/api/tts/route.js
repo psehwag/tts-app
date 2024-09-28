@@ -50,10 +50,10 @@ export async function POST(request) {
 function executeCommand(command, args, outputPath) {
   return new Promise((resolve, reject) => {
 
-   // If spawn command giving error then give full path of espeak.exe as commented below
-   // const espeakPath = 'C:\\Program Files\\eSpeak\\espeak.exe';
-   // const espeakProcess = spawn(espeakPath, args);
-   
+    // If spawn command giving error then give full path of espeak.exe as commented below
+    // const espeakPath = 'C:\\Program Files\\eSpeak\\espeak.exe';
+    // const espeakProcess = spawn(espeakPath, args);
+
     const espeakProcess = spawn(command, args);
     const writeStream = fs.createWriteStream(outputPath);
 
