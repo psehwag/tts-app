@@ -1,10 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
-import styles from '../styles/texttospeach.module.css'; // Importing CSS module for styling
+import styles from '../styles/texttospeech.module.css'; // Importing CSS module for styling
 
 
-export default function TextToSpeech() {
-  const [text, setText] = useState("");
+export default function TextToSpeech(props) {
+  const [text, setText] = useState(props.pdftext);
   const [speed, setSpeed] = useState(150);
   const [pitch, setPitch] = useState(40);
   const [variant, setVariant] = useState("+f4");
@@ -93,7 +93,7 @@ export default function TextToSpeech() {
   }, [text, speed, pitch, variant]);
 
   return (
-    <div className={styles.text_to_speach_wrapper}>
+    <div className={styles.text_to_speech_wrapper}>
       <h1>Upload and Read a Text File</h1>
       {/* File input to upload file */}
       <input type="file" accept=".txt" onChange={handleFileUpload} />
@@ -106,7 +106,7 @@ export default function TextToSpeech() {
         cols={50}
       />
       <div className={styles.flex_elem}>
-        <div className={styles.speach_attributes}>
+        <div className={styles.speech_attributes}>
           <label>Speed (80 - 260): {speed}
             <input
               type="range"
@@ -117,7 +117,7 @@ export default function TextToSpeech() {
               onChange={(e) => setSpeed(Number(e.target.value))}
             /></label>
         </div>
-        <div className={styles.speach_attributes}>
+        <div className={styles.speech_attributes}>
           <label>Pitch (0 - 99): {pitch}
             <input
               type="range"
@@ -128,7 +128,7 @@ export default function TextToSpeech() {
               onChange={(e) => setPitch(Number(e.target.value))}
             /> </label>
         </div>
-        <div className={styles.speach_attributes}>
+        <div className={styles.speech_attributes}>
           <label>Choose Variant:
             <select value={variant} onChange={(e) => setVariant(e.target.value)}>
               <option value="+m1">Male 1</option>

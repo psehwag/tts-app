@@ -1,18 +1,17 @@
-"use client"
-import { useState } from "react";
-import TextToSpeech from "../component/TextToSpeech";
+
 import HeaderBanner from "../component/HeaderBanner";
+import Link from "next/link";
+import styles from '../styles/texttospeech.module.css';
+import PdfUploader from "@/component/PdfUploader";
 
 export default function Home() {
-  const [showTTS, setShowTTS] = useState(false);
   return (
     <div className="hero-area">
       <HeaderBanner />
       <div className="container">
-        <div className="demo_button">
-          <button onClick={(e) => setShowTTS(true)}>Try Me</button>
+        <div className={styles.text_to_speech_wrapper}>
+          <Link href="/speak">Try Me</Link>
         </div>
-        {showTTS && <TextToSpeech />}
       </div>
     </div>
   );
