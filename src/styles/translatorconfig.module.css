@@ -1,0 +1,66 @@
+.translatorConfigContainer {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f9f9f9; /* Lighter background for contrast */
+    border-radius: 12px; /* Softer rounded corners */
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow */
+    font-family: 'Roboto', sans-serif; /* Modern, clean font */
+    transition: all 0.3s ease-in-out; /* Smooth animations */
+}
+
+.translatorConfigContainer:hover {
+    transform: translateY(-3px); /* Subtle hover effect */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.configSection {
+    margin-bottom: 20px;
+}
+
+.configLabel {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    display: block;
+    color: #333;
+}
+
+.configSelect {
+    width: 100%;
+    padding: 12px;
+    font-size: 15px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    margin-top: 5px;
+    background-color: #fff;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.configSelect:focus {
+    border-color: #0070f3;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 112, 243, 0.5);
+}
+
+.loading {
+    text-align: center;
+    font-size: 18px;
+    color: #0070f3;
+    font-weight: bold;
+}
+
+.translatorConfigContainer button {
+    background-color: #0070f3;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.translatorConfigContainer button:hover {
+    background-color: #005bb5;
+}

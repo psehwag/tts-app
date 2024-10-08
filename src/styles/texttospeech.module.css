@@ -1,5 +1,7 @@
 .text_to_speech_wrapper {
-    margin-top: 20px;
+    margin-top: 5px;
+    height: 100%;
+    width: 100%;
 }
 .text_to_speech_wrapper h1 {
     font-size: 18px;
@@ -25,7 +27,8 @@
 }
 
 .text_to_speech_wrapper textarea {
-    height: 180px;
+    height: 100%;
+    width: 100%;
     border: 1px solid #e6e2f5;
     padding: 15px 20px;
     color: #333;

@@ -83,6 +83,7 @@ a {
 }
 .nav_bar {
   box-shadow: 0 0 1px 1px #dfdfdf;
+  margin-bottom: 5px;
 }
 @media (min-width:576px) {
 

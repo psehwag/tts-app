@@ -1,0 +1,128 @@
+.container {
+    padding: 40px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 1000px; /* Increased width to accommodate the wider layout */
+    margin: 0 auto;
+    transition: all 0.3s ease;
+}
+
+.centered {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.header {
+    margin-bottom: 25px;
+    font-size: 2rem;
+    color: #333;
+    font-weight: 600;
+}
+
+.highlightedText {
+    color: #0070f3;
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+.fileUploadLabel {
+    display: inline-block;
+    cursor: pointer;
+    padding: 12px 24px;
+    background-color: #0070f3;
+    color: #fff;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 112, 243, 0.3);
+}
+
+.fileUploadLabel:hover {
+    background-color: #005bb5;
+}
+
+.fileUploadInput {
+    display: none;
+}
+
+.errorMessage {
+    color: red;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.filePreviewContainer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+    gap: 20px;
+}
+
+.flexBox {
+    display: flex;
+    flex-direction: column;
+    width: 48%; /* Each box takes up 48% of the container's width */
+    max-height: 400px; /* Set a fixed height for the boxes */
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+    overflow-y: auto; /* Enable vertical scroll */
+    overflow-x: hidden; /* Prevent horizontal overflow */
+}
+
+.flexItem {
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: #f1f1f1;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    white-space: normal; /* Ensure the content wraps inside the box */
+    word-wrap: break-word; /* Break long words if necessary */
+}
+
+.flexItem:hover {
+    transform: translateY(-5px);
+}
+
+.submitButton, .nextButton {
+    padding: 12px 24px;
+    background-color: #0070f3;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 2px 6px rgba(0, 112, 243, 0.3);
+}
+
+.submitButton:hover, .nextButton:hover {
+    background-color: #005bb5;
+    transform: translateY(-5px);
+}
+
+.submitButton:active, .nextButton:active {
+    transform: translateY(-2px);
+}
+
+/* Custom scrollbar for a cleaner look */
+.flexBox::-webkit-scrollbar {
+    width: 8px;
+}
+
+.flexBox::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.flexBox::-webkit-scrollbar-thumb {
+    background-color: #0070f3;
+    border-radius: 10px;
+    border: 2px solid #f1f1f1;
+}

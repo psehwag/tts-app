@@ -2,7 +2,6 @@
 import HeaderBanner from "../component/HeaderBanner";
 import Link from "next/link";
 import styles from '../styles/texttospeech.module.css';
-import PdfUploader from "@/component/PdfUploader";
 
 export default function Home() {
   return (

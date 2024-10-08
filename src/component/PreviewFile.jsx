@@ -40,16 +40,16 @@ export default function PreviewFile({file}) {
     };
 
     return (
-        <div>
+        <>
             {/* Preview Section */}
             {preview && (
-                <div>
+                <>
                     {/* Image Preview */}
                     {file && file.type.startsWith('image/') && (
                         <img
                             src={preview}
                             alt="Image Preview"
-                            style={{ maxWidth: '650px', maxHeight: '500px' }}
+                            style={{ width:'100%', height: '500px' }}
                         />
                     )}
 
@@ -58,7 +58,7 @@ export default function PreviewFile({file}) {
                         <iframe
                             src={preview}
                             type="application/pdf"
-                            width="650px"
+                            width="100%"
                             height="500px"
                         />
                     )}
@@ -69,7 +69,7 @@ export default function PreviewFile({file}) {
                         'application/vnd.openxmlformats-officedocument.wordprocessingml.document' && (
                             <iframe
                                 srcDoc={preview} // Use srcDoc to set the HTML content directly
-                                width="650px"
+                                width="100%"
                                 height="500px"
                                 style={{
                                     border: '1px solid #ddd',
@@ -77,8 +77,8 @@ export default function PreviewFile({file}) {
                                 }}
                             />
                         )}
-                </div>
+                </>
             )}
-        </div>
+        </>
     );
 }

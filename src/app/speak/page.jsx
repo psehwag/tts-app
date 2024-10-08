@@ -1,11 +1,12 @@
-'use client'
+'use client';
 import React, { useState } from 'react';
 import PdfUploader from '@/component/PdfUploader';
 import PreviewFile from '@/component/PreviewFile';
 import ExtractedText from '@/component/ExtractedText';
 import TranslatorConfig from '@/component/TranslatorConfig';
+import styles from './page.module.css'; // Import the CSS module
 
-const FileManager = () => {
+const page = () => {
     const [file, setFile] = useState(null);
     const [text, setText] = useState('');
     const [error, setError] = useState('');
@@ -39,80 +40,59 @@ const FileManager = () => {
     }
 
     return (
-        <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+        <div className={styles.container}>
             {!file && (
-                <div style={{ textAlign: 'center' }}>
-                    <h2 style={{ marginBottom: '20px' }}>
+                <div className={styles.header}>
+                    <h2>
                         Transform Your Documents or Images <br />
-                        into <span style={{ color: '#0070f3' }}>Spoken Words</span>
+                        into <span>Spoken Words</span>
                     </h2>
-                    <div>
-                        {/* <Image src="/images/docx.png" alt="Docs" width={64} height={64} />
-                        <Image src="/images/pdf.png" alt="PDF" width={64} height={64} />
-                        <Image src="/images/jpg.png" alt="JPG" width={64} height={64} />
-                        <Image src="/images/png.png" alt="PNG" width={64} height={64} /> */}
+                    <div className={styles.dragDropArea}>
+                        <h6>Drag and Drop your document here</h6>
+                        <h6>Or</h6>
+                        <label className={styles.uploadButton}>
+                            Upload from Device
+                            <input type="file" accept=".pdf,.docx,.txt,image/*" onChange={handleFileChange} style={{ display: 'none' }} />
+                        </label>
                     </div>
-                    <h6 style={{ marginBottom: '10px' }}>Drag and Drop your document here</h6>
-                    <h6 style={{ marginBottom: '10px' }}>Or</h6>
-                    <label style={{ display: 'inline-block', cursor: 'pointer', padding: '10px', backgroundColor: '#0070f3', color: '#fff', borderRadius: '5px' }}>
-                        Upload from Device
-                        <input type="file" accept=".pdf,.docx,.txt,image/*" onChange={handleFileChange} style={{ display: 'none' }} />
-                    </label>
-                    <div />
                 </div>
             )}
-            {error && <p style={{ color: 'red', textAlign: 'center' }}>{error}</p>}
+            {error && <p className={styles.errorMessage}>{error}</p>}
             {file && (
-                <div style={{ display: 'flex', gap: '20px', marginTop: '20px' }}>
-                    <div style={{ flex: 1 }}>
+                <div className={styles.filePreviewContainer}>
+                    <div className={styles.previewFile}>
                         <PreviewFile file={file} />
                     </div>
                     {!showTranslatorConfig && (
-                        <div style={{ flex: 1 }}>
+                        <div className={styles.actionContainer}>
                             {!text ? (
-                                <div style={{ textAlign: 'center' }}>
+                                <>
                                     <p style={{ marginBottom: '20px' }}>
                                         Speak will read your document aloud, highlighting the text in sync with your chosen language and voice.
                                     </p>
                                     <button
                                         type="button"
                                         onClick={handleSubmitAndExtract}
-                                        style={{
-                                            padding: '10px 20px',
-                                            backgroundColor: '#0070f3',
-                                            color: '#fff',
-                                            border: 'none',
-                                            borderRadius: '5px',
-                                            cursor: 'pointer'
-                                        }}
                                     >
                                         Submit & Extract
                                     </button>
-                                </div>
+                                </>
                             ) : (
-                                <div>
+                                <>
                                     <ExtractedText text={text} />
                                     <button
                                         type="button"
+                                        className={styles.nextButton}
                                         onClick={() => setShowTranslatorConfig(true)}
-                                        style={{
-                                            marginTop: '20px',
-                                            padding: '10px 20px',
-                                            backgroundColor: '#0070f3',
-                                            color: '#fff',
-                                            border: 'none',
-                                            borderRadius: '5px',
-                                            cursor: 'pointer'
-                                        }}
                                     >
                                         Next
                                     </button>
-                                </div>
+                                </>
                             )}
                         </div>
                     )}
                     {showTranslatorConfig && (
-                        <div style={{ flex: 1 }}>
+                        <div className={styles.previewFile}>
                             <TranslatorConfig text={text} />
                         </div>
                     )}
@@ -122,4 +102,4 @@ const FileManager = () => {
     );
 }
 
-export default FileManager;
+export default page;
