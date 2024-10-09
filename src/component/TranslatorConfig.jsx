@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import styles from '../styles/translatorconfig.module.css'; // Using CSS Modules
+import ExtractedText from './ExtractedText';
 
-const TranslatorConfig = () => {
+const TranslatorConfig = ({text: initialText }) => {
+    const [text, setText] = useState(initialText);
     const [languages, setLanguages] = useState({});
     const [voices, setVoices] = useState([]);
     const [selectedVoice, setSelectedVoice] = useState(null);
@@ -10,6 +12,8 @@ const TranslatorConfig = () => {
     const [volume, setVolume] = useState('medium');
     const [rate, setRate] = useState('slow');
     const [pitch, setPitch] = useState('low');
+    const [translatedText, setTranslatedText] = useState('');
+    const [audioURL, setAudioURL] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -59,8 +63,88 @@ const TranslatorConfig = () => {
         setSelectedVoice(voice);
         const { SupportedEngines } = voice;
         const validEngines = SupportedEngines.filter(engine => engine !== 'generative');
-        setSelectedEngine(validEngines[0]);
+        const validEngine = validEngines[0];
+        setSelectedEngine(validEngine);
+        if(validEngine === 'neural'){
+            setPitch('');
+        }
     };
+
+    const handleTranslate = async () => {
+        setTranslatedText("आपका नाम क्या है?");
+        // try {
+        //     // Detect language first
+        //     const sourceLanguage = await detectLanguage();
+        //     console.log("Detected source language:", sourceLanguage);
+
+        //     // Make translation request
+        //     const response = await fetch('/api/translate', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //         body: JSON.stringify({
+        //             text,
+        //             sourceLanguage,
+        //             targetLanguage: selectedLanguage,
+        //         }),
+        //     });
+
+        //     if (!response.ok) {
+        //         throw new Error('Error in translation');
+        //     }
+
+        //     const data = await response.json();
+        //     console.log("Translated text:", data.translatedText);
+        //     setTranslatedText(data.translatedText);
+        // } catch (error) {
+        //     console.error('Error translating text:', error);
+        // }
+    };
+
+    const detectLanguage = async () => {
+        const textToDetect = text.substring(0, 100); // Detect language from the first 100 characters
+        try {
+            const response = await fetch('/api/detectlanguage', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ text: textToDetect }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Error detecting language');
+            }
+
+            const data = await response.json();
+            return data.detectedLanguages[0]?.language || 'Unknown';
+        } catch (error) {
+            console.error('Error detecting language:', error);
+            return 'Unknown'; // Return 'Unknown' if detection fails
+        }
+    };
+
+    const handleTextToSpeech = async () => {
+        const voiceId = selectedVoice.Id;
+        const response = await fetch('/api/texttospeech', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ text:translatedText, rate, pitch, voiceId, engine:selectedEngine}),
+        });
+
+        if (response.ok) {
+            const audioBlob = await response.blob();
+            const audioUrl = URL.createObjectURL(audioBlob);
+            setAudioURL(audioUrl);
+            const audio = new Audio(audioUrl);
+            audio.play();
+        } else {
+            console.error('Failed to synthesize speech');
+        }
+    }
 
     if (loading) {
         return <div className={styles.loading}>Loading...</div>;
@@ -68,7 +152,7 @@ const TranslatorConfig = () => {
 
     return (
         <div className={styles.translatorConfigContainer}>
-            {languages && Object.keys(languages).length > 0 && (
+            {!translatedText && languages && Object.keys(languages).length > 0 && (
                 <div className={styles.configSection}>
                     <label className={styles.configLabel}>
                         Select Language for Audio Output
@@ -183,7 +267,25 @@ const TranslatorConfig = () => {
                             )}
                         </div>
                     )}
+                    <button type="button" onClick={handleTranslate}>Translate</button>
                 </div>
+            )}
+            {translatedText && (<>
+                <ExtractedText text={translatedText}/>
+                <button type="button" onClick={handleTextToSpeech}>Speak</button>
+                {audioURL && (
+        <div>
+          <h1>Listen to audio:</h1>
+          <audio controls>
+            <source src={audioURL} type="audio/mp3" />
+          </audio>
+          <br />
+          <a href={audioURL} download>
+            Download Audio
+          </a>
+        </div>
+      )}
+                </>
             )}
         </div>
     );

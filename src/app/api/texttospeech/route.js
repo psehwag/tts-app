@@ -12,13 +12,38 @@ const polly = new PollyClient({
 });
 
 export async function POST(req) {
-    const { text, languageCode } = await req.json();
+    const { text, rate, pitch, voiceId, engine } = await req.json();
+    console.log(text + rate + pitch + voiceId + engine);
+
+    let ssml = '';
+    if(pitch){
+    ssml = `
+    <speak>
+        <prosody rate="${rate}" pitch="${pitch}">
+            ${text}
+        </prosody>
+    </speak>`;
+    } else {
+        ssml = `
+    <speak>
+        <prosody rate="${rate}">
+            ${text}
+        </prosody>
+    </speak>`;
+    }
 
     const params = {
-        Text: text,
-        OutputFormat: 'MP3',
-        VoiceId: languageCode, // e.g., 'Joanna' for English
+        Text: ssml,
+        OutputFormat: 'mp3',
+        VoiceId: voiceId,
+        TextType: 'ssml',
+        Engine: engine,
     };
+    // const params = {
+    //     Text: text,
+    //     OutputFormat: 'MP3',
+    //     VoiceId: languageCode, // e.g., 'Joanna' for English
+    // };
 
     const command = new SynthesizeSpeechCommand(params);
 
@@ -30,7 +55,9 @@ export async function POST(req) {
             return NextResponse.json('Audio stream not found', { status: 404 });
         }
 
-        return NextResponse.json(AudioStream, {
+        // Create a response with the audio stream as binary data
+        const audioBuffer = await streamToBuffer(AudioStream); // Convert stream to buffer
+        return new Response(audioBuffer, {
             headers: {
                 'Content-Type': 'audio/mpeg',
                 'Content-Disposition': 'attachment; filename="speech.mp3"',
@@ -40,6 +67,16 @@ export async function POST(req) {
         console.error('Error synthesizing speech:', error);
         return NextResponse.json('Error synthesizing speech', { status: 500 });
     }
+}
+
+// Helper function to convert stream to buffer
+function streamToBuffer(stream) {
+    return new Promise((resolve, reject) => {
+        const chunks = [];
+        stream.on('data', chunk => chunks.push(chunk));
+        stream.on('error', reject);
+        stream.on('end', () => resolve(Buffer.concat(chunks)));
+    });
 }
 
 export async function GET() {
