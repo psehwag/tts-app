@@ -10,6 +10,9 @@
   },
   "dependencies": {
     "@aws-sdk/client-polly": "^3.664.0",
+    "@aws-sdk/client-translate": "^3.675.0",
+    "franc": "^6.2.0",
+    "iso-639-3": "^3.0.1",
     "mammoth": "^1.8.0",
     "next": "14.2.13",
     "pdf-parse": "^1.1.1",

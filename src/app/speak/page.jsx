@@ -39,6 +39,10 @@ const page = () => {
         }
     }
 
+    const handleTextUpdate = (newText) => {
+        setText(newText);
+      };
+
     return (
         <div className={styles.container}>
             {!file && (
@@ -79,7 +83,7 @@ const page = () => {
                                 </>
                             ) : (
                                 <>
-                                    <ExtractedText text={text} />
+                                    <ExtractedText text={text} onTextUpdate={handleTextUpdate}/>
                                     <button
                                         type="button"
                                         className={styles.nextButton}

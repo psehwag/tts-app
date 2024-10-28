@@ -42,8 +42,16 @@ const TranslatorConfig = ({text: initialText }) => {
         setSelectedVoice(firstVoice);
         const { SupportedEngines } = firstVoice;
         const validEngines = SupportedEngines.filter(engine => engine !== 'generative');
-        setSelectedEngine(validEngines[0]);
+        const validEngine = validEngines[0];
+        setSelectedEngine(validEngine);
+        if(validEngine === 'neural'){
+            setPitch('');
+        }
     }
+
+    const handleTextUpdate = (newText) => {
+        setTranslatedText(newText);
+      };
 
     const handleLanguageChange = (e) => {
         const selectedLangCode = e.target.value;
@@ -54,7 +62,11 @@ const TranslatorConfig = ({text: initialText }) => {
         setSelectedVoice(firstVoice);
         const { SupportedEngines } = firstVoice;
         const validEngines = SupportedEngines.filter(engine => engine !== 'generative');
-        setSelectedEngine(validEngines[0]);
+        const validEngine = validEngines[0];
+        setSelectedEngine(validEngine);
+        if(validEngine === 'neural'){
+            setPitch('');
+        }
     };
 
     const handleVoiceChange = (e) => {
@@ -71,7 +83,27 @@ const TranslatorConfig = ({text: initialText }) => {
     };
 
     const handleTranslate = async () => {
-        setTranslatedText("आपका नाम क्या है?");
+    try {
+        const response = await fetch('/api/translate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                text: text,
+                targetLanguage: selectedLanguage
+            })
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            setTranslatedText(data.translatedText); // Show translated text
+        } else {
+            console.error('Error:', data.error);
+        }
+    } catch (error) {
+        console.error('Error calling the translation API:', error);
+    }
         // try {
         //     // Detect language first
         //     const sourceLanguage = await detectLanguage();
@@ -132,15 +164,13 @@ const TranslatorConfig = ({text: initialText }) => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ text:translatedText, rate, pitch, voiceId, engine:selectedEngine}),
+            body: JSON.stringify({ text:translatedText, volume, rate, pitch, voiceId, engine:selectedEngine}),
         });
 
         if (response.ok) {
             const audioBlob = await response.blob();
             const audioUrl = URL.createObjectURL(audioBlob);
             setAudioURL(audioUrl);
-            const audio = new Audio(audioUrl);
-            audio.play();
         } else {
             console.error('Failed to synthesize speech');
         }
@@ -271,7 +301,7 @@ const TranslatorConfig = ({text: initialText }) => {
                 </div>
             )}
             {translatedText && (<>
-                <ExtractedText text={translatedText}/>
+                <ExtractedText text={translatedText} onTextUpdate={handleTextUpdate}/>
                 <button type="button" onClick={handleTextToSpeech}>Speak</button>
                 {audioURL && (
         <div>
