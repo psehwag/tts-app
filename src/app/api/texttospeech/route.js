@@ -12,7 +12,7 @@ const polly = new PollyClient({
 });
 
 export async function POST(req) {
-    const { text, volume, rate, pitch, voiceId, engine } = await req.json();
+    const { text, volume, rate, pitch, voiceId, selectedLanguage, engine } = await req.json();
     const formattedText = formatTextForPollyTTS(text);
 
     // Chunk the formatted text into smaller SSML segments
@@ -28,6 +28,7 @@ export async function POST(req) {
             VoiceId: voiceId,
             TextType: 'ssml',
             Engine: engine,
+            LanguageCode: selectedLanguage
         };
 
         const command = new SynthesizeSpeechCommand(params);

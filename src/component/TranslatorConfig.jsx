@@ -164,7 +164,7 @@ const TranslatorConfig = ({text: initialText }) => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ text:translatedText, volume, rate, pitch, voiceId, engine:selectedEngine}),
+            body: JSON.stringify({ text:translatedText, volume, rate, pitch, voiceId, selectedLanguage, engine:selectedEngine}),
         });
 
         if (response.ok) {
