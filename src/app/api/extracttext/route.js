@@ -3,6 +3,15 @@ import { NextResponse } from 'next/server';
 import Tesseract from 'tesseract.js';
 import pdfParse from 'pdf-parse';
 import mammoth from 'mammoth';
+import { TextractClient, DetectDocumentTextCommand } from '@aws-sdk/client-textract';
+
+const textractClient = new TextractClient({
+    region: "ap-south-1", // e.g., "us-east-1"
+    credentials: {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID,      // Replace with your Access Key ID
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY, // Replace with your Secret Access Key
+    },
+});
 
 export async function POST(request) {
     const formData = await request.formData();
@@ -40,24 +49,43 @@ export async function POST(request) {
 
         // Handle image files (JPEG, PNG, etc.)
         if (mimeType.startsWith('image/')) {
-            console.log("inside image processor");
-            const buffer = await file.arrayBuffer();
-            const imageBuffer = Buffer.from(buffer);
+            const arrayBuffer = await file.arrayBuffer();
+            const imageBytes = new Uint8Array(arrayBuffer); // Convert to Uint8Array for AWS Textract
 
-            try {
-                const result = await Tesseract.recognize(imageBuffer, 'eng', {
-                    logger: m => console.log(m),
-                });
+            // Use AWS Textract to extract text from the image
+            const command = new DetectDocumentTextCommand({
+                Document: { Bytes: imageBytes },
+            });
 
-                return new Response(JSON.stringify({ text: result.data.text }), {
-                    headers: { 'Content-Type': 'application/json' },
-                });
-            } catch (error) {
-                return new Response(JSON.stringify({ error: error.message }), {
-                    headers: { 'Content-Type': 'application/json' },
-                    status: 500,
-                });
-            }
+            const textractResponse = await textractClient.send(command);
+
+            // Extract detected text
+            const detectedText = textractResponse.Blocks
+                .filter(block => block.BlockType === 'LINE')
+                .map(block => block.Text)
+                .join('\n');
+
+            console.log("=========Inside AMAZON textract ==========");
+
+            return NextResponse.json({ text: detectedText });
+            // console.log("inside image processor");
+            // const buffer = await file.arrayBuffer();
+            // const imageBuffer = Buffer.from(buffer);
+
+            // try {
+            //     const result = await Tesseract.recognize(imageBuffer, 'eng', {
+            //         logger: m => console.log(m),
+            //     });
+
+            //     return new Response(JSON.stringify({ text: result.data.text }), {
+            //         headers: { 'Content-Type': 'application/json' },
+            //     });
+            // } catch (error) {
+            //     return new Response(JSON.stringify({ error: error.message }), {
+            //         headers: { 'Content-Type': 'application/json' },
+            //         status: 500,
+            //     });
+            // }
         }
 
         return NextResponse.json({ error: 'Unsupported file type' }, { status: 400 });
