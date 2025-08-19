@@ -52,12 +52,14 @@ const page = () => {
                         into <span>Spoken Words</span>
                     </h2>
                     <div className={styles.dragDropArea}>
-                        <h6>Drag and Drop your document here</h6>
-                        <h6>Or</h6>
-                        <label className={styles.uploadButton}>
-                            Upload from Device
-                            <input type="file" accept=".pdf,.docx,.txt,image/*" onChange={handleFileChange} style={{ display: 'none' }} />
-                        </label>
+                        <h3>Drag and Drop</h3>
+                        <span>your document here or browse</span>
+                        <div>
+                            <label className={styles.uploadButton}>
+                                Upload from Device
+                                <input type="file" accept=".pdf,.docx,.txt,image/*" onChange={handleFileChange} style={{ display: 'none' }} />
+                            </label>
+                        </div>
                     </div>
                 </div>
             )}

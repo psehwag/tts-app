@@ -1,11 +1,9 @@
 .container {
     padding: 5px;
     font-family: 'Arial', sans-serif;
-    background-color: #f9f9f9; /* Light background for contrast */
-    border-radius: 10px; /* Rounded corners */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
     width: 90%;
     margin: auto;
+    margin-top: 70px;
 }
 
 .header {
@@ -25,25 +23,34 @@
 .dragDropArea {
     text-align: center;
     margin-bottom: 20px;
+    border: 1px dashed #DBE0E5;
+    border-radius: 5px;
+    padding: 50px 15px;
+    margin-top: 50px;
 }
 
-.dragDropArea h6 {
-    margin: 10px 0;
+.dragDropArea h3 {
+    margin: 5px 0;
     color: #555; /* Subtle text color */
+    font-size:18px;
 }
-
+.dragDropArea span {
+    color: #afafaf; /* Subtle text color */
+    font-size:14px;
+}
+.dragDropArea > div {
+    margin-top: 15px;
+}
 .uploadButton {
     display: inline-block;
     padding: 12px 20px;
-    background-color: #0070f3; /* Button color */
-    color: #fff;
     border-radius: 5px;
     cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
     transition: background-color 0.3s; /* Smooth transition */
-}
-
-.uploadButton:hover {
-    background-color: #005bb5; /* Darker shade on hover */
+    background: #01A1ED;
+    color: #fff;
 }
 
 .errorMessage {
