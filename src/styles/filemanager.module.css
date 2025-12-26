@@ -22,7 +22,7 @@
 }
 
 .highlightedText {
-    color: #0070f3;
+    color: #01A1ED;
     font-weight: 700;
     text-decoration: underline;
 }
@@ -31,7 +31,7 @@
     display: inline-block;
     cursor: pointer;
     padding: 12px 24px;
-    background-color: #0070f3;
+    background-color: #01A1ED;
     color: #fff;
     border-radius: 8px;
     font-weight: 600;
@@ -92,7 +92,7 @@
 
 .submitButton, .nextButton {
     padding: 12px 24px;
-    background-color: #0070f3;
+    background-color: #01A1ED;
     color: white;
     border: none;
     border-radius: 8px;
@@ -122,7 +122,7 @@
 }
 
 .flexBox::-webkit-scrollbar-thumb {
-    background-color: #0070f3;
+    background-color: #01A1ED;
     border-radius: 10px;
     border: 2px solid #f1f1f1;
 }

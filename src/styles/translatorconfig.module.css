@@ -1,29 +1,164 @@
 .translatorConfigContainer {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #f9f9f9; /* Lighter background for contrast */
-    border-radius: 12px; /* Softer rounded corners */
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15); /* Slightly stronger shadow */
-    font-family: 'Roboto', sans-serif; /* Modern, clean font */
-    transition: all 0.3s ease-in-out; /* Smooth animations */
-}
+    width: 100%;
 
-.translatorConfigContainer:hover {
-    transform: translateY(-3px); /* Subtle hover effect */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 .configSection {
     margin-bottom: 20px;
 }
 
+.loaderWrapper {
+    height: 150px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .loader {
+    width: 24px;
+    height: 24px;
+    border: 3px solid #d1d5db; /* gray */
+    border-top-color: #01A1ED;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .voiceGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 16px;
+    margin-top: 12px;
+  }
+  
+  .voiceCard {
+    cursor: pointer;
+    border: 2px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 12px;
+    text-align: center;
+    transition: all 0.2s ease;
+    background: #fff;
+  }
+  
+  .voiceCard:hover {
+    border-color: #01A1ED;
+  }
+  
+  .voiceCard.active {
+    border-color: #01A1ED;
+    box-shadow: 0 0 0 2px rgba(1, 161, 237, 0.2);
+  }
+  
+  .hiddenRadio {
+    display: none;
+  }
+  
+  .voiceImage {
+    max-width: 100%;
+    object-fit: contain;
+    margin-bottom: 8px;
+  }
+
+  .volumeSlider {
+    width: 100%;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+  
+  .sliderLabels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    margin-top: 6px;
+    color: #6b7280;
+  }
+  
+  /* Optional: slider styling */
+  .volumeSlider::-webkit-slider-thumb {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #01A1ED;
+    border-radius: 50%;
+  }
+  
+  .volumeSlider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: #01A1ED;
+    border-radius: 50%;
+  }
+  
+  .rateSlider {
+    width: 100%;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+  
+  /* You can reuse thumb styles */
+  .rateSlider::-webkit-slider-thumb {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #01A1ED;
+    border-radius: 50%;
+  }
+
+  .pitchSlider {
+    width: 100%;
+    margin-top: 10px;
+    cursor: pointer;
+  }
+  .highlightBlue {
+    color: #01A1ED;
+  }
+  
+  /* Thumb styles (reuse or keep global) */
+  .pitchSlider::-webkit-slider-thumb {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #01A1ED;
+    border-radius: 50%;
+  }
+  
+  .pitchSlider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: #01A1ED;
+    border-radius: 50%;
+  }
+  
+  
+  .rateSlider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: #01A1ED;
+    border-radius: 50%;
+  }
+  
+  
+  .voiceName {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
 .configLabel {
     font-size: 16px;
     font-weight: bold;
     margin-bottom: 8px;
     display: block;
     color: #333;
+    background: #f6f6f6;
+    padding: 10px;
+    border: 1px solid #f5e7e7;
 }
 
 .configSelect {
@@ -38,7 +173,7 @@
 }
 
 .configSelect:focus {
-    border-color: #0070f3;
+    border-color: #01A1ED;
     outline: none;
     box-shadow: 0 0 5px rgba(0, 112, 243, 0.5);
 }
@@ -46,12 +181,12 @@
 .loading {
     text-align: center;
     font-size: 18px;
-    color: #0070f3;
+    color: #01A1ED;
     font-weight: bold;
 }
 
 .translatorConfigContainer button {
-    background-color: #0070f3;
+    background-color: #01A1ED;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -59,8 +194,37 @@
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin: 0 auto;
+    display: block;
+    margin-top: 10px;
 }
 
 .translatorConfigContainer button:hover {
     background-color: #005bb5;
 }
+
+.loaderWrapper {
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .loader {
+    width: 24px;
+    height: 24px;
+    border: 3px solid #d1d5db; /* gray */
+    border-top-color: #01A1ED;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  .autoArea {
+    display: flex;
+    justify-content: center;
+    margin-top: -30px;
+  }
+  
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }

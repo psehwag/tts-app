@@ -10,6 +10,7 @@ const page = () => {
     const [file, setFile] = useState(null);
     const [text, setText] = useState('');
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false);
     const [showTranslatorConfig, setShowTranslatorConfig] = useState(false);
 
     const handleFileChange = async (e) => {
@@ -23,6 +24,7 @@ const page = () => {
         const formData = new FormData();
         formData.append('file', file);
         try {
+            setLoading(true); //
             const response = await fetch("/api/extracttext", {
                 method: "POST",
                 body: formData,
@@ -37,6 +39,9 @@ const page = () => {
             setError('Error extracting text from PDF');
             console.error(err);
         }
+        finally {
+            setLoading(false); // 🔥 hide loader
+          }
     }
 
     const handleTextUpdate = (newText) => {
@@ -44,7 +49,7 @@ const page = () => {
       };
 
     return (
-        <div className={styles.container}>
+        <div className="container">
             {!file && (
                 <div className={styles.header}>
                     <h2>
@@ -52,6 +57,11 @@ const page = () => {
                         into <span>Spoken Words</span>
                     </h2>
                     <div className={styles.dragDropArea}>
+                        <div className={styles.iconWraps}>
+                            <img src="images/docx.png" width="64px" height="64px" />
+                            <img src="images/jpg.png" width="64px" height="64px" />
+                            <img src="images/png.png" width="64px" height="64px" />
+                        </div>
                         <h3>Drag and Drop</h3>
                         <span>your document here or browse</span>
                         <div>
@@ -71,31 +81,52 @@ const page = () => {
                     </div>
                     {!showTranslatorConfig && (
                         <div className={styles.actionContainer}>
-                            {!text ? (
-                                <>
-                                    <p style={{ marginBottom: '20px' }}>
-                                        Speak will read your document aloud, highlighting the text in sync with your chosen language and voice.
-                                    </p>
-                                    <button
-                                        type="button"
-                                        onClick={handleSubmitAndExtract}
-                                    >
-                                        Submit & Extract
-                                    </button>
-                                </>
-                            ) : (
-                                <>
-                                    <ExtractedText text={text} onTextUpdate={handleTextUpdate}/>
-                                    <button
-                                        type="button"
-                                        className={styles.nextButton}
-                                        onClick={() => setShowTranslatorConfig(true)}
-                                    >
-                                        Next
-                                    </button>
-                                </>
-                            )}
-                        </div>
+
+                        {loading ? (
+                          /* 🔄 LOADER */
+                          <div className={styles.loaderWrapper}>
+                            <div className={styles.loader}></div>
+                          </div>
+                      
+                        ) : !text ? (
+                          /* 📝 BEFORE EXTRACT */
+                          <>
+                            <p style={{ marginBottom: '20px' }}>
+                              Speak will read your document aloud,{" "}
+                              <span className={styles.textHighlight}>
+                                highlighting the text
+                              </span>{" "}
+                              in sync with your chosen language and voice.
+                            </p>
+                      
+                            <button
+                              type="button"
+                              onClick={handleSubmitAndExtract}
+                            >
+                              Submit & Extract
+                            </button>
+                          </>
+                      
+                        ) : (
+                          /* ✅ AFTER EXTRACT */
+                          <>
+                            <ExtractedText
+                              text={text}
+                              onTextUpdate={handleTextUpdate}
+                            />
+                      
+                            <button
+                              type="button"
+                              className={styles.nextButton}
+                              onClick={() => setShowTranslatorConfig(true)}
+                            >
+                              Next
+                            </button>
+                          </>
+                        )}
+                      
+                      </div>
+                      
                     )}
                     {showTranslatorConfig && (
                         <div className={styles.previewFile}>

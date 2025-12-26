@@ -16,6 +16,36 @@ const TranslatorConfig = ({text: initialText }) => {
     const [audioURL, setAudioURL] = useState(null);
     const [loading, setLoading] = useState(true);
 
+    const [translating, setTranslating] = useState(false);
+
+    const volumeOptions = ["x-soft", "soft", "medium", "loud", "x-loud"];
+    const volumeLabels = {
+    "x-soft": "X-Soft",
+    "soft": "Soft",
+    "medium": "Medium",
+    "loud": "Loud",
+    "x-loud": "X-Loud",
+    };
+
+    const rateOptions = ["x-slow", "slow", "medium", "fast", "x-fast"];
+    const rateLabels = {
+    "x-slow": "X-Slow",
+    "slow": "Slow",
+    "medium": "Medium",
+    "fast": "Fast",
+    "x-fast": "X-Fast",
+    };
+
+    const pitchOptions = ["x-low", "low", "medium", "high", "x-high"];
+
+    const pitchLabels = {
+    "x-low": "X-Low",
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High",
+    "x-high": "X-High",
+    };
+
     useEffect(() => {
         const fetchLanguages = async () => {
             try {
@@ -84,6 +114,7 @@ const TranslatorConfig = ({text: initialText }) => {
 
     const handleTranslate = async () => {
     try {
+        setTranslating(true);
         const response = await fetch('/api/translate', {
             method: 'POST',
             headers: {
@@ -103,7 +134,9 @@ const TranslatorConfig = ({text: initialText }) => {
         }
     } catch (error) {
         console.error('Error calling the translation API:', error);
-    }
+    } finally {
+        setTranslating(false); 
+      }
         // try {
         //     // Detect language first
         //     const sourceLanguage = await detectLanguage();
@@ -177,14 +210,16 @@ const TranslatorConfig = ({text: initialText }) => {
     }
 
     if (loading) {
-        return <div className={styles.loading}>Loading...</div>;
+        return <div className={styles.loaderWrapper}>
+            <div className={styles.loader}></div>
+      </div>;
     }
 
     return (
         <div className={styles.translatorConfigContainer}>
-            {!translatedText && languages && Object.keys(languages).length > 0 && (
+            {!translating && !translatedText && languages && Object.keys(languages).length > 0 && (
                 <div className={styles.configSection}>
-                    <label className={styles.configLabel}>
+                      <label className={styles.configLabel}>
                         Select Language for Audio Output
                         <div>
                             <select
@@ -201,25 +236,47 @@ const TranslatorConfig = ({text: initialText }) => {
                             </select>
                         </div>
                     </label>
+                     <label className={styles.configLabel}>
+                        Select Voice for Audio Output
+
+                        <div className={styles.voiceGrid}>
+                        {voices.map((voice) => (
+                            <label
+                                key={voice.Id}
+                                className={`${styles.voiceCard} ${
+                                selectedVoice?.Id === voice.Id ? styles.active : ""
+                                }`}
+                            >
+                                {/* Hidden radio */}
+                                <input
+                                type="radio"
+                                name="voice"
+                                value={voice.Id}
+                                checked={selectedVoice?.Id === voice.Id}
+                                onChange={() => handleVoiceChange({ target: { value: voice.Id } })}
+                                className={styles.hiddenRadio}
+                                />
+
+                                {/* Image */}
+                                <img src = {
+                                    voice.Gender === "Female"
+                                      ? "/images/female.png"
+                                      : "/images/man.png"
+                                  }
+                                 
+                                alt={voice.Name}
+                                className={styles.voiceImage}
+                                />
+
+                                {/* Label */}
+                                <span className={styles.voiceName}>{voice.Name}</span>
+                            </label>
+                            ))}
+                        </div>
+                    </label>
+
                     {voices.length > 0 && (
                         <div className={styles.configSection}>
-                            <label className={styles.configLabel}>
-                                Select Voice for Audio Output
-                                <div>
-                                    <select
-                                        id="voiceSelect"
-                                        value={selectedVoice?.Id || ''}
-                                        onChange={handleVoiceChange}
-                                        className={styles.configSelect}
-                                    >
-                                        {voices.map((voice) => (
-                                            <option key={voice.Id} value={voice.Id}>
-                                                {voice.Name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
-                            </label>
                             {selectedVoice && selectedVoice.SupportedEngines?.length > 0 && (
                                 <div className={styles.configSection}>
                                     <label className={styles.configLabel}>
@@ -240,58 +297,71 @@ const TranslatorConfig = ({text: initialText }) => {
                                         </div>
                                     </label>
                                     <label className={styles.configLabel}>
-                                        Set Volume
-                                        <div>
-                                            <select
-                                                id="volumeSelect"
-                                                value={volume}
-                                                onChange={(e) => setVolume(e.target.value)}
-                                                className={styles.configSelect}
-                                            >
-                                                <option value="x-soft">X-Soft</option>
-                                                <option value="soft">Soft</option>
-                                                <option value="medium">Medium</option>
-                                                <option value="loud">Loud</option>
-                                                <option value="x-loud">X-Loud</option>
-                                            </select>
+                                        Volume: <span className={styles.highlightBlue}><strong>{volumeLabels[volume]}</strong></span>
+
+                                        <input
+                                            type="range"
+                                            min="0"
+                                            max={volumeOptions.length - 1}
+                                            step="1"
+                                            value={volumeOptions.indexOf(volume)}
+                                            onChange={(e) =>
+                                            setVolume(volumeOptions[Number(e.target.value)])
+                                            }
+                                            className={styles.volumeSlider}
+                                        />
+
+                                        <div className={styles.sliderLabels}>
+                                            {volumeOptions.map((opt) => (
+                                            <span key={opt}>{volumeLabels[opt]}</span>
+                                            ))}
                                         </div>
                                     </label>
                                     <label className={styles.configLabel}>
-                                        Rate Control
-                                        <div>
-                                            <select
-                                                id="rateSelect"
-                                                value={rate}
-                                                onChange={(e) => setRate(e.target.value)}
-                                                className={styles.configSelect}
-                                            >
-                                                <option value="x-slow">X-Slow</option>
-                                                <option value="slow">Slow</option>
-                                                <option value="medium">Medium</option>
-                                                <option value="fast">Fast</option>
-                                                <option value="x-fast">X-Fast</option>
-                                            </select>
-                                        </div>
+                                    Rate Control: <span className={styles.highlightBlue}><strong>{rateLabels[rate]}</strong></span>
+
+                                    <input
+                                        type="range"
+                                        min="0"
+                                        max={rateOptions.length - 1}
+                                        step="1"
+                                        value={rateOptions.indexOf(rate)}
+                                        onChange={(e) =>
+                                        setRate(rateOptions[Number(e.target.value)])
+                                        }
+                                        className={styles.rateSlider}
+                                    />
+
+                                    <div className={styles.sliderLabels}>
+                                        {rateOptions.map((opt) => (
+                                        <span key={opt}>{rateLabels[opt]}</span>
+                                        ))}
+                                    </div>
                                     </label>
+
                                     {selectedEngine && selectedEngine !== 'neural' && selectedEngine !== 'long-form' && (
 
-                                        <label className={styles.configLabel}>
-                                            Pitch Control
-                                            <div>
-                                                <select
-                                                    id="pitchSelect"
-                                                    value={pitch}
-                                                    onChange={(e) => setPitch(e.target.value)}
-                                                    className={styles.configSelect}
-                                                >
-                                                    <option value="x-low">X-Low</option>
-                                                    <option value="low">Low</option>
-                                                    <option value="medium">Medium</option>
-                                                    <option value="high">High</option>
-                                                    <option value="x-high">X-High</option>
-                                                </select>
-                                            </div>
-                                        </label>
+                                    <label className={styles.configLabel}>
+                                        Pitch Control: <span className={styles.highlightBlue}><strong>{pitchLabels[pitch]}</strong></span>
+
+                                        <input
+                                        type="range"
+                                        min="0"
+                                        max={pitchOptions.length - 1}
+                                        step="1"
+                                        value={pitchOptions.indexOf(pitch)}
+                                        onChange={(e) =>
+                                            setPitch(pitchOptions[Number(e.target.value)])
+                                        }
+                                        className={styles.pitchSlider}
+                                        />
+
+                                        <div className={styles.sliderLabels}>
+                                        {pitchOptions.map((opt) => (
+                                            <span key={opt}>{pitchLabels[opt]}</span>
+                                        ))}
+                                        </div>
+                                    </label>
                                     )}
                                 </div>
                             )}
@@ -300,23 +370,37 @@ const TranslatorConfig = ({text: initialText }) => {
                     <button type="button" onClick={handleTranslate}>Translate</button>
                 </div>
             )}
-            {translatedText && (<>
-                <ExtractedText text={translatedText} onTextUpdate={handleTextUpdate}/>
-                <button type="button" onClick={handleTextToSpeech}>Speak</button>
+           {translating ? (
+                /* 🔄 LOADER */
+                <div className={styles.loaderWrapper}>
+                    <div className={styles.loader}></div>
+                </div>
+
+                ) : translatedText ? (
+                /* ✅ TRANSLATED OUTPUT */
+                <>
+                    <ExtractedText
+                    text={translatedText}
+                    onTextUpdate={handleTextUpdate}
+                    />
+
+                {!audioURL && (
+                    <button type="button" onClick={handleTextToSpeech}>
+                        Speak
+                    </button>
+                )}
+
                 {audioURL && (
-        <div>
-          <h1>Listen to audio:</h1>
-          <audio controls>
-            <source src={audioURL} type="audio/mp3" />
-          </audio>
-          <br />
-          <a href={audioURL} download>
-            Download Audio
-          </a>
-        </div>
-      )}
+                    <div className={styles.autoArea}>
+                        <audio controls autoPlay>
+                            <source src={audioURL} type="audio/mp3" />
+                        </audio>
+                    </div>
+                    )}
                 </>
-            )}
+
+                ) : null}
+
         </div>
     );
 };

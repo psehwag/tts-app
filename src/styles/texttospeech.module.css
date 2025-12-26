@@ -1,6 +1,6 @@
 .text_to_speech_wrapper {
     margin-top: 5px;
-    height: 100%;
+    height: calc(100% - 50px);
     width: 100%;
 }
 .text_to_speech_wrapper h1 {
@@ -24,6 +24,8 @@
   font-family: "Roboto", sans-serif;
   font-weight: 500;
   font-size: 15px;
+  display: inline-block;
+  text-align: center;
 }
 
 .text_to_speech_wrapper textarea {

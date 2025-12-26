@@ -14,7 +14,6 @@ const ExtractedText = ({ text, onTextUpdate }) => {
 
     return (
         <div className={styles.text_to_speech_wrapper}>
-            ExtractedText
             <textarea
                 value={localText}
                 onChange={handleChange}
