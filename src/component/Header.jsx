@@ -13,9 +13,23 @@ export default function Header() {
                     {/* Navigation Menu */}
                     <nav>
                         <ul className={styles.nav}>
+                            
                             <li>
                                 <Link href="/">Home</Link>
                             </li>
+                            <li>
+                                <Link href="/" className="nav-link">
+                                    Products
+                                    <i className="fa-solid fa-chevron-down icon"></i>
+                                </Link>
+
+                                {/* Dropdown */}
+                                <ul className="dropdown">
+                                    <li>
+                                        <Link href="/speak">speak</Link>
+                                    </li>
+                                </ul>
+                             </li>
                         </ul>
                     </nav>
                 </div>

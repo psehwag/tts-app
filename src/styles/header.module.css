@@ -24,7 +24,40 @@
   
   .nav li {
     list-style: none;
+    display:inline;
+    margin:0 10px;
+    position:relative;
   }
+  .nav li i {
+    font-size: 15px;
+    transition: transform 0.3s ease;
+    margin-left:2px;
+  }
+  .nav li:hover i {
+    transform: rotate(180deg);
+  }
+  .nav li ul {
+    position: absolute;
+    top: 120%;
+    left: 0;
+    min-width: 140px;
+    background: #fff;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    border-radius: 6px;
+    padding: 6px 0;
+
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.25s ease;
+    z-index: 50;
+  }
+  .nav li:hover ul {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  
   
   .nav a {
     text-decoration: none;
