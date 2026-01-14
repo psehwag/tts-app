@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import styles from '../styles/translatorconfig.module.css'; // Using CSS Modules
 import ExtractedText from './ExtractedText';
 
-const TranslatorConfig = ({text: initialText }) => {
+const TranslatorConfig = ({text: initialText, onBack }) => {
     const [text, setText] = useState(initialText);
     const [languages, setLanguages] = useState({});
     const [voices, setVoices] = useState([]);
@@ -78,6 +78,11 @@ const TranslatorConfig = ({text: initialText }) => {
             setPitch('');
         }
     }
+    const handleCancel = () => {
+        setTranslatedText('');
+        setAudioURL(null);
+        setTranslating(false);
+    };
 
     const handleTextUpdate = (newText) => {
         setTranslatedText(newText);
@@ -367,7 +372,15 @@ const TranslatorConfig = ({text: initialText }) => {
                             )}
                         </div>
                     )}
-                    <button type="button" onClick={handleTranslate}>Translate</button>
+                    <div className={styles.buttonGroup}>
+                        <button type="button" onClick={onBack} className={styles.backButton}>
+                            Back
+                        </button>
+
+                        <button type="button" onClick={handleTranslate}>
+                            Translate
+                        </button>
+                    </div>
                 </div>
             )}
            {translating ? (
@@ -385,9 +398,22 @@ const TranslatorConfig = ({text: initialText }) => {
                     />
 
                 {!audioURL && (
-                    <button type="button" onClick={handleTextToSpeech}>
-                        Speak
-                    </button>
+                    <div className={styles.buttonGroup}>
+                    <button
+                            type="button"
+                            onClick={handleCancel}
+                            className={styles.backButton}
+                        >
+                            Back
+                        </button>
+                
+                        <button
+                            type="button"
+                            onClick={handleTextToSpeech}
+                        >
+                            Speak
+                        </button>
+                    </div>
                 )}
 
                 {audioURL && (

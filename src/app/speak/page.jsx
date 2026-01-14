@@ -20,6 +20,14 @@ const page = () => {
         }
     }
 
+    const handleCancel = () => {
+        setFile(null);
+        setText('');
+        setError('');
+        setLoading(false);
+        setShowTranslatorConfig(false);
+    };
+
     const handleSubmitAndExtract = async () => {
         const formData = new FormData();
         formData.append('file', file);
@@ -98,13 +106,15 @@ const page = () => {
                               </span>{" "}
                               in sync with your chosen language and voice.
                             </p>
-                      
-                            <button
-                              type="button"
-                              onClick={handleSubmitAndExtract}
-                            >
-                              Submit & Extract
-                            </button>
+                            <div className={styles.buttonGroup}>
+                                <button type="button" className={styles.cancelButton}
+                                  onClick={handleCancel}>
+                                  Cancel
+                                </button>
+                                <button type="button" onClick={handleSubmitAndExtract}>
+                                  Submit & Extract
+                                </button>
+                              </div>
                           </>
                       
                         ) : (
@@ -114,7 +124,11 @@ const page = () => {
                               text={text}
                               onTextUpdate={handleTextUpdate}
                             />
-                      
+                            <div className={styles.buttonGroup}>
+                                <button type="button" className={styles.cancelButton}
+                                  onClick={handleCancel}>
+                                  Cancel
+                                </button>
                             <button
                               type="button"
                               className={styles.nextButton}
@@ -122,6 +136,7 @@ const page = () => {
                             >
                               Next
                             </button>
+                            </div>
                           </>
                         )}
                       
@@ -130,7 +145,9 @@ const page = () => {
                     )}
                     {showTranslatorConfig && (
                         <div className={styles.previewFile}>
-                            <TranslatorConfig text={text} />
+                            <TranslatorConfig 
+                              text={text} 
+                              onBack={() => setShowTranslatorConfig(false)}/>
                         </div>
                     )}
                 </div>

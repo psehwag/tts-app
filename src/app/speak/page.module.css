@@ -83,7 +83,9 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Light shadow */
     border: 1px solid #ccc;
 }
-
+.previewFile {
+    align-items: center;
+}
 .loaderWrapper {
     height: 150px;
     display: flex;
@@ -109,12 +111,14 @@
     
     flex-direction: column;
     align-items: center; /* Center the buttons */
-    justify-content: center;
+    justify-content: space-between;
 }
 .actionContainer p {
     color: #151515;
     font-weight: 600;
     font-size: 23px;
+    align-content: center;
+    flex: 1;
 }
 
 .actionContainer button {
@@ -125,6 +129,7 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s; /* Smooth transition */
+    align-self: flex-end;
     
 }
 
@@ -134,4 +139,17 @@
 
 .nextButton {
     margin-top: 20px; /* Space between buttons */
+}
+.buttonGroup {
+    align-self: flex-end;
+}
+.actionContainer button.cancelButton {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: #fff;
+    margin: 0 5px;
+}
+.cancelButton:hover {
+    background-color: #5c636a;
+    border-color: #565e64;
 }
